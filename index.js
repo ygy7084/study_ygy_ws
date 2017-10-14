@@ -1,10 +1,17 @@
 import socket from 'socket.io';
 import http from 'http';
-
-const server = http.createServer(() => {
+import fs from 'fs';
+import path from 'path';
+import https from 'https';
+// SSL (임시 방편 - 자체 SSL, 공인 인증 SSL(기관 인증) 아님)
+const options = {
+  key: fs.readFileSync(path.join(__dirname, '../', 'certs', 'server', 'privkey.pem'))
+  , cert: fs.readFileSync(path.join(__dirname, '../', 'certs', 'server', 'fullchain.pem'))
+};
+const server = https.createServer((options) => {
 });
 
-const io = socket(server);
+const io = socket.listen(server);
 
 let a = 0;
 
